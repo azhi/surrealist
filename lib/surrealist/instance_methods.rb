@@ -55,7 +55,8 @@ module Surrealist
         return serializer.new(self).surrealize(args)
       end
 
-      Oj.dump(Surrealist.build_schema(instance: self, **args), mode: :compat)
+      result = Surrealist.build_schema(instance: self, **args)
+      args[:raw] ? result : Oj.dump(result, mode: :compat)
     end
 
     # Invokes +Surrealist+'s class method +build_schema+

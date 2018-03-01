@@ -73,12 +73,14 @@ module Surrealist
     #   instance's namespaces. Animal::Cat.new.surrealize -> (animal: { cat: { weight: '3 kilos' } })
     # @param [String] [optional] root optional argument for using a specified root key for the hash
     # @param [Integer] [optional] namespaces_nesting_level level of namespaces nesting.
+    # @param [Boolean] [optional] raw optional argument for specifying the expected output format.
     #
     # @return [String] a json-formatted string corresponding to the schema
     #   provided in the object's class. Values will be taken from the return values
     #   of appropriate methods from the object.
     def surrealize(instance:, **args)
-      Oj.dump(build_schema(instance: instance, **args), mode: :compat)
+      result = build_schema(instance: instance, **args)
+      args[:raw] ? result : Oj.dump(result, mode: :compat)
     end
 
     # rubocop:disable Metrics/AbcSize
